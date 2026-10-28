@@ -1,0 +1,137 @@
+﻿@model List<CyberSecurityApp.Models.PasswordDictionaryWord>
+
+@{
+    ViewData["Title"] = "Słownik haseł";
+}
+
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 fw-bold mb-1">Słownik haseł</h1>
+            <p class="text-secondary mb-0">
+                Zarządzanie słowami używanymi do generowania haseł jednorazowych.
+            </p>
+        </div>
+
+        <a asp-controller="Admin"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Powrót do użytkowników
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+            <h2 class="h5 mb-0">Dodaj słowo</h2>
+        </div>
+
+        <div class="card-body">
+            <form asp-controller="PasswordDictionary"
+                  asp-action="Add"
+                  method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-8">
+                        <label for="word" class="form-label">Nowe słowo</label>
+                        <input type="text"
+                               id="word"
+                               name="word"
+                               class="form-control"
+                               maxlength="50"
+                               required
+                               placeholder="Wpisz słowo..." />
+                        <div class="form-text">
+                            Maksymalnie 50 znaków. Zbędne spacje zostaną usunięte.
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">
+                            Dodaj do słownika
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="h5 mb-0">Zapisane słowa</h2>
+                <span class="badge text-bg-secondary">
+                    Liczba słów: @Model.Count
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+            @if (Model.Count == 0)
+            {
+                <div class="p-4 text-center text-secondary">
+                    Słownik jest pusty. Dodaj pierwsze słowa, aby przygotować generator haseł.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 80px;">ID</th>
+                                <th>Słowo</th>
+                                <th>Data dodania</th>
+                                <th class="text-end">Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td class="fw-semibold">@item.Word</td>
+                                    <td>
+                                        @item.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                    </td>
+                                    <td class="text-end">
+                                        <form asp-controller="PasswordDictionary"
+                                              asp-action="Delete"
+                                              method="post"
+                                              class="d-inline">
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@item.Id" />
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Czy na pewno chcesz usunąć to słowo?');">
+                                                Usuń
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

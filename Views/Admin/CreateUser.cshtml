@@ -1,0 +1,85 @@
+﻿@model CyberSecurityApp.ViewModels.CreateUserViewModel
+
+@{
+    ViewData["Title"] = "Generowanie użytkownika";
+}
+
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 fw-bold mb-1">Generowanie użytkownika</h1>
+            <p class="text-secondary mb-0">
+                Utwórz konto z losowym loginem i hasłem jednorazowym.
+            </p>
+        </div>
+
+        <a asp-controller="Admin"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Powrót do użytkowników
+        </a>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <div asp-validation-summary="All"></div>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h2 class="h5 mb-0">Dane nowego konta</h2>
+        </div>
+
+        <div class="card-body">
+            <form asp-controller="Admin"
+                  asp-action="CreateUser"
+                  method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-4">
+                    <label asp-for="Role" class="form-label">
+                        Rola użytkownika
+                    </label>
+
+                    <select asp-for="Role" class="form-select">
+                        <option value="Czytelnik">Czytelnik</option>
+                        <option value="Redaktor">Redaktor</option>
+                    </select>
+
+                    <span asp-validation-for="Role"
+                          class="text-danger"></span>
+
+                    <div class="form-text">
+                        Administrator nie może utworzyć kolejnego konta administratora przez ten formularz.
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <h3 class="h6">Co zostanie wygenerowane?</h3>
+                    <ul class="mb-0">
+                        <li>Losowy login użytkownika.</li>
+                        <li>Hasło złożone z czterech różnych słów.</li>
+                        <li>Wymuszona zmiana hasła przy pierwszym logowaniu.</li>
+                        <li>Termin ważności hasła zgodny z ustawieniami aplikacji.</li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span class="me-1">+</span> Utwórz konto
+                </button>
+
+                <a asp-controller="Admin"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary ms-2">
+                    Anuluj
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Strefa redaktora";
+}
+
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="h2 fw-bold">Strefa redaktora</h1>
+        <p class="text-secondary">
+            Ta strona jest dostępna wyłącznie dla administratorów i redaktorów.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5">Panel redakcyjny</h2>
+            <p class="mb-0">
+                Witaj w strefie redakcyjnej. W przyszłości możesz tutaj
+                dodać funkcje zarządzania treścią i publikacjami.
+            </p>
+        </div>
+    </div>
+
+    <a asp-controller="Home"
+       asp-action="Index"
+       class="btn btn-outline-secondary mt-3">
+        Powrót
+    </a>
+</div>

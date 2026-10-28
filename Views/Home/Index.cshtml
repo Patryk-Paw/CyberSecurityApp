@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Strona główna";
+}
+
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="display-5 fw-bold">Witaj w CyberSecurityApp</h1>
+        <p class="text-secondary fs-5">
+            System zarządzania użytkownikami i bezpieczeństwem kont.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-3">Panel użytkownika</h2>
+
+            <p class="mb-2">
+                Zalogowano jako:
+                <strong>@User.Identity?.Name</strong>
+            </p>
+
+            <p class="text-secondary mb-0">
+                Dostępne funkcje będą zależeć od przypisanej roli.
+                W tym miejscu pojawią się odpowiednie informacje i opcje.
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+﻿@model CyberSecurityApp.Models.User
+
+@{
+    ViewData["Title"] = "Delete user";
+}
+
+<div class="container mt-4">
+    <div class="mb-4">
+        <h1>Delete user</h1>
+        <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-secondary">
+            Back to admin panel
+        </a>
+    </div>
+
+    <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+            Confirm user deletion
+        </div>
+
+        <div class="card-body">
+            <p>
+                Are you sure you want to delete this user?
+            </p>
+
+            <dl class="row">
+                <dt class="col-sm-3">Login</dt>
+                <dd class="col-sm-9">@Model.UserName</dd>
+
+                <dt class="col-sm-3">User ID</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+            </dl>
+
+            <form asp-controller="Admin"
+                  asp-action="DeleteUserConfirmed"
+                  method="post">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="id" value="@Model.Id" />
+
+                <button type="submit" class="btn btn-danger">
+                    Delete user
+                </button>
+
+                <a asp-controller="Admin"
+                   asp-action="Index"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
